@@ -1,0 +1,34 @@
+# GPU image with CUDA runtime. Adjust CUDA version to your cluster driver.
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04 as runtime
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.10 python3.10-distutils python3-pip \
+    build-essential ffmpeg git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install --upgrade pip
+
+WORKDIR /app
+
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt
+
+# Install GPU-accelerated libs optionally here (commented to keep image small)
+# RUN pip install torch --index-url https://download.pytorch.org/whl/cu121
+# RUN pip install faster-whisper transformers accelerate bitsandbytes
+
+COPY server /app/server
+COPY client /app/client
+
+EXPOSE 5000
+
+ENV HOST=0.0.0.0 PORT=5000 ENABLE_METRICS=1 LOG_LEVEL=INFO ASR_DEVICE=cuda MT_DEVICE=cuda TTS_DEVICE=cuda MODEL_PRECISION=fp16
+
+CMD ["python3", "-m", "uvicorn", "server.main:APP", "--host", "0.0.0.0", "--port", "5000"]
+
+

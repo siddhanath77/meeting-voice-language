@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live AI Interpreter</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <div class="title">Live AI Interpreter</div>
+        <div class="indicators">
+          <span id="statusDot" class="dot offline"></span>
+          <span id="statusText">Disconnected</span>
+          <span class="sep">|</span>
+          <span>Latency: <strong id="latency">-</strong> ms</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn">Start</button>
+        <button id="stopBtn" disabled>Stop</button>
+        <button id="muteBtn" disabled>Mute</button>
+        <label>
+          Sample Rate
+          <select id="sampleRate">
+            <option value="16000" selected>16000</option>
+            <option value="48000">48000</option>
+          </select>
+        </label>
+        <label>
+          Room
+          <input id="roomId" type="text" placeholder="default" value="default" />
+        </label>
+        <label>
+          Target Language
+          <select id="targetLang">
+            <option value="en" selected>English</option>
+            <option value="hi">Hindi</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+          </select>
+        </label>
+        <div class="spacer"></div>
+        <button id="clearBtn">Clear</button>
+        <button id="saveBtn">Save Transcript</button>
+        <div class="meter" title="Mic level">
+          <div id="meterFill" class="meter-fill"></div>
+        </div>
+      </div>
+
+      <div class="panels">
+        <div class="panel">
+          <h3>Original (ASR)</h3>
+          <div id="asrPartial" class="partial"></div>
+          <div id="asrFinal" class="final"></div>
+        </div>
+        <div class="panel">
+          <h3>Translation</h3>
+          <div id="mtPartial" class="partial"></div>
+          <div id="mtFinal" class="final"></div>
+        </div>
+      </div>
+
+      <audio id="player" controls autoplay></audio>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+  </html>
+
+

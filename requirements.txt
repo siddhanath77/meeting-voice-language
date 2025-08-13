@@ -1,0 +1,27 @@
+fastapi>=0.111,<1.0
+uvicorn[standard]>=0.30,<1.0
+starlette>=0.37,<0.38
+numpy>=1.26,<2.0
+prometheus-client>=0.20,<1.0
+pydantic>=2.7,<3.0
+python-dotenv>=1.0,<2.0
+aiofiles>=23.2,<24.0
+orjson>=3.10,<4.0
+uvloop>=0.19,<1.0; platform_system != 'Windows'
+httptools>=0.6,<1.0; platform_system != 'Windows'
+# Optional audio processing
+rnnoise>=0.4,<1.0; platform_system == 'Linux'
+ 
+# Live interpreter (ASR/MT/TTS)
+faster-whisper>=1.0,<2.0
+transformers>=4.41,<5.0
+sentencepiece>=0.2,<1.0
+gTTS>=2.5,<3.0
+soundfile>=0.12,<1.0
+requests>=2.32,<3.0
+torch>=2.2,<3.0
+sacremoses>=0.0.53
+
+
+
+# pip install torch tiktoken tqdm 

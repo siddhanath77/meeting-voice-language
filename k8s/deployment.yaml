@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meeting-voice-language
+  labels:
+    app: meeting-voice-language
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meeting-voice-language
+  template:
+    metadata:
+      labels:
+        app: meeting-voice-language
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "5000"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+        - name: api
+          image: your-registry/meeting-voice-language:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: ENABLE_METRICS
+              value: "1"
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: MODEL_PRECISION
+              value: "fp16"
+            - name: CONSENT_REQUIRED
+              value: "1"
+            - name: STORE_TRANSCRIPTS
+              value: "0"
+            - name: ASR_DEVICE
+              value: "cuda"
+            - name: MT_DEVICE
+              value: "cuda"
+            - name: TTS_DEVICE
+              value: "cuda"
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+          volumeMounts:
+            - name: transcripts
+              mountPath: /data/transcripts
+      volumes:
+        - name: transcripts
+          emptyDir: {}
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
+

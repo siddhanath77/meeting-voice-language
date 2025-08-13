@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: meeting-voice-language
+  labels:
+    app: meeting-voice-language
+spec:
+  selector:
+    app: meeting-voice-language
+  ports:
+    - name: http
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
+

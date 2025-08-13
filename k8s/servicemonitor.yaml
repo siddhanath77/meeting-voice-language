@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: meeting-voice-language
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: meeting-voice-language
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+

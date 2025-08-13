@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: meeting-voice-language
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: your-domain.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meeting-voice-language
+                port:
+                  number: 80
+
